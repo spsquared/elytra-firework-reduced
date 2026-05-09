@@ -18,10 +18,10 @@ public class ElytraFireworkNerfClient implements ClientModInitializer {
             if (ClientPlayNetworking.canSend(EnforcementHandshakePayload.TYPE)) {
                 ClientPlayNetworking.send(new EnforcementHandshakePayload(Version.VERSION));
                 ElytraFireworkNerf.enabled = true;
-                ElytraFireworkNerf.LOGGER.info("Server has Elytra Firework Nerf, enabling changes");
+                ElytraFireworkNerf.LOGGER.info("Server has elyfireworknerf, enabling changes");
             } else {
                 ElytraFireworkNerf.enabled = false;
-                ElytraFireworkNerf.LOGGER.info("Server appears to not have Elytra Firework Nerf, disabling changes");
+                ElytraFireworkNerf.LOGGER.info("Server appears to not have elyfireworknerf, disabling changes");
             }
         });
         ClientPlayNetworking.registerGlobalReceiver(EnforcementHandshakePayload.TYPE, (payload, context) -> {

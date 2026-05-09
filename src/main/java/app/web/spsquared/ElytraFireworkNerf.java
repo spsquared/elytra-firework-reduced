@@ -22,7 +22,7 @@ public class ElytraFireworkNerf implements ModInitializer {
 
     private static final int enforcementHandshakeDeadline = 200; // you have 10 seconds to verify
     private static final Map<UUID, Integer> enforcementList = new ConcurrentHashMap<>();
-    private static final DisconnectionDetails enforcementMessage = new DisconnectionDetails(Component.literal("Elytra Firework Nerf v" + Version.VERSION + " must be installed"));
+    private static final DisconnectionDetails enforcementMessage = new DisconnectionDetails(Component.literal("Reduced Elytra Firework v" + Version.VERSION + " must be installed"));
 
     /**
      * Enable firework nerfs. Enabled by default, but for clients is disabled on join and re-enabled if

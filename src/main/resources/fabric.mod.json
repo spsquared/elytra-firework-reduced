@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "elyfireworknerf",
 	"version": "${version}",
-	"name": "Elytra Firework Nerf",
+	"name": "Reduced Elytra Firework",
 	"description": "Reduces the power and duration of fireworks when used to boost elytra (good for building too)",
 	"authors": [
 		"SPsquared"
