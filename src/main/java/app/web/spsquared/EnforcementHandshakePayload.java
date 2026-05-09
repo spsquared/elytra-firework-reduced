@@ -9,11 +9,11 @@ import net.minecraft.resources.Identifier;
 
 public record EnforcementHandshakePayload(String version) implements CustomPacketPayload {
     public static final StreamCodec<FriendlyByteBuf, EnforcementHandshakePayload> CODEC = StreamCodec.composite(ByteBufCodecs.stringUtf8(11), EnforcementHandshakePayload::version, EnforcementHandshakePayload::new);
-    public static final Identifier PACKET_ID = Identifier.fromNamespaceAndPath("elyfireworknerf", "presence");
-    public static final CustomPacketPayload.Type<EnforcementHandshakePayload> ID = new CustomPacketPayload.Type<>(PACKET_ID);
+    public static final Identifier ID = Identifier.fromNamespaceAndPath("elyfireworknerf", "presence");
+    public static final CustomPacketPayload.Type<EnforcementHandshakePayload> TYPE = new CustomPacketPayload.Type<>(ID);
 
     @Override
     public @NonNull Type<EnforcementHandshakePayload> type() {
-        return ID;
+        return TYPE;
     }
 }
