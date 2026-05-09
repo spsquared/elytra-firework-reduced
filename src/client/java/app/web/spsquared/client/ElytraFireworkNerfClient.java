@@ -1,4 +1,4 @@
-package io.github.spsquared.elyfireworknerf.client;
+package app.web.spsquared.client;
 
 import net.fabricmc.api.ClientModInitializer;
 

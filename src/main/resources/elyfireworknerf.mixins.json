@@ -1,7 +1,7 @@
 {
 	"required": true,
-	"package": "io.github.spsquared.elyfireworknerf.mixin",
-	"compatibilityLevel": "JAVA_21",
+	"package": "app.web.spsquared.mixin",
+	"compatibilityLevel": "JAVA_25",
 	"mixins": [
 		"ExampleMixin"
 	],

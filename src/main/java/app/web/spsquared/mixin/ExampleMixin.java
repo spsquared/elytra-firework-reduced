@@ -1,4 +1,4 @@
-package io.github.spsquared.elyfireworknerf.mixin;
+package app.web.spsquared.mixin;
 
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
