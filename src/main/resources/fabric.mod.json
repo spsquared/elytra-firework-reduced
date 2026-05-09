@@ -3,13 +3,12 @@
 	"id": "elyfireworknerf",
 	"version": "${version}",
 	"name": "Elytra Firework Nerf",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Reduces the power and duration of fireworks when used to boost elytra (good for building too)",
 	"authors": [
-		"Me!"
+		"SPsquared"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/spsquared/elyfireworknerf"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/elyfireworknerf/icon.png",
@@ -20,22 +19,14 @@
 		],
 		"client": [
 			"app.web.spsquared.client.ElytraFireworkNerfClient"
-		],
-		"fabric-datagen": [
-			"app.web.spsquared.client.ElytraFireworkNerfDataGenerator"
 		]
 	},
 	"mixins": [
-		"elyfireworknerf.mixins.json",
-		{
-			"config": "elyfireworknerf.client.mixins.json",
-			"environment": "client"
-		}
+		"elyfireworknerf.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.19.2",
 		"minecraft": "~26.1.2",
-		"java": ">=25",
-		"fabric-api": "*"
+		"java": ">=25"
 	}
 }

@@ -3,7 +3,7 @@
 	"package": "app.web.spsquared.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
-		"ExampleMixin"
+		"FireworkRocketEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -50,6 +50,15 @@ processResources {
 	filesMatching("fabric.mod.json") {
 		expand "version": version
 	}
+
+    def file = file("src/main/java/app/web/spsquared/Version.java")
+    file.text = """// this file only exists to insert the gradle project version into code
+package app.web.spsquared;
+
+public class Version {
+    public static final String VERSION = "${project.version}";
+}
+"""
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -64,6 +73,11 @@ java {
 
 	sourceCompatibility = JavaVersion.VERSION_25
 	targetCompatibility = JavaVersion.VERSION_25
+
+    // because gradle decides java 21 is a good idea
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
 }
 
 jar {
