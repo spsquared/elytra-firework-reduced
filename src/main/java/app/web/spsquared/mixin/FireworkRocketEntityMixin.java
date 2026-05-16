@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import app.web.spsquared.ElytraFireworkNerf;
+import app.web.spsquared.ElytraFireworkReduced;
 
 @Mixin(FireworkRocketEntity.class)
 public class FireworkRocketEntityMixin {
@@ -25,13 +25,13 @@ public class FireworkRocketEntityMixin {
 
     @Inject(method = "<init>(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;)V", at = @At("TAIL"))
     private void reduceAttachedFireworkLife(final Level level, final ItemStack sourceItemStack, final LivingEntity stuckTo, CallbackInfo callbackInfo) {
-        if (ElytraFireworkNerf.enabled)
+        if (ElytraFireworkReduced.enabled)
             this.lifetime = (int) Mth.ceil(lifetime * 0.5);
     }
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;add"))
     private Vec3 reduceAttachedFireworkPower(Vec3 instance, double dx, double dy, double dz, Operation<Vec3> original) {
-        if (ElytraFireworkNerf.enabled && this.attachedToEntity != null) {
+        if (ElytraFireworkReduced.enabled && this.attachedToEntity != null) {
             Vec3 lookAngle = this.attachedToEntity.getLookAngle();
             Vec3 movement = this.attachedToEntity.getDeltaMovement();
             // power is target speed (drag but it can pull you faster too) and powerAdd is force

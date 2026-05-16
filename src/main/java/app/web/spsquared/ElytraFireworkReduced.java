@@ -12,17 +12,16 @@ import net.minecraft.server.players.PlayerList;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ElytraFireworkNerf implements ModInitializer {
-    public static final String MOD_ID = "elyfireworknerf";
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+public class ElytraFireworkReduced implements ModInitializer {
+    public static final Logger LOGGER = LoggerFactory.getLogger(Version.NAMESPACE);
 
     private static final int enforcementHandshakeDeadline = 200; // you have 10 seconds to verify
-    private static final Map<UUID, Integer> enforcementList = new ConcurrentHashMap<>();
-    private static final DisconnectionDetails enforcementMessage = new DisconnectionDetails(Component.literal("Reduced Elytra Firework v" + Version.VERSION + " must be installed"));
+    private static final Map<@NonNull UUID, Integer> enforcementList = new ConcurrentHashMap<>();
+    private static final @NonNull DisconnectionDetails enforcementMessage = new DisconnectionDetails(Component.literal("Reduced Elytra Firework v" + Version.VERSION + " must be installed"));
 
     /**
      * Enable firework nerfs. Enabled by default, but for clients is disabled on join and re-enabled if
@@ -60,7 +59,7 @@ public class ElytraFireworkNerf implements ModInitializer {
         ServerTickEvents.END_SERVER_TICK.register((server) -> {
             // disconnect if somehow mod namespace was registered but packet wasn't sent in time
             PlayerList players = server.getPlayerList();
-            for (UUID id : enforcementList.keySet()) {
+            for (@NonNull UUID id : enforcementList.keySet()) {
                 Integer i = enforcementList.get(id);
                 enforcementList.put(id, i + 1);
                 if (i >= enforcementHandshakeDeadline) { // intentional

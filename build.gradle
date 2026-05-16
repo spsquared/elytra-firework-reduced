@@ -18,7 +18,7 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"elyfireworknerf" {
+		"elytra-firework-reduced" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
@@ -57,6 +57,7 @@ package app.web.spsquared;
 
 public class Version {
     public static final String VERSION = "${project.version}";
+    public static final String NAMESPACE = "${project.name}";
 }
 """
 }

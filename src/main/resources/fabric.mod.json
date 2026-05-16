@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "elyfireworknerf",
+	"id": "elytra-firework-reduced",
 	"version": "${version}",
 	"name": "Reduced Elytra Firework",
 	"description": "Reduces the power and duration of fireworks when used to boost elytra (good for building too)",
@@ -8,21 +8,21 @@
 		"SPsquared"
 	],
 	"contact": {
-		"sources": "https://github.com/spsquared/elyfireworknerf"
+		"sources": "https://github.com/spsquared/elytra-firework-reduced"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/elyfireworknerf/icon.png",
+	"icon": "assets/elytra-firwork-reduced/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"app.web.spsquared.ElytraFireworkNerf"
+			"app.web.spsquared.ElytraFireworkReduced"
 		],
 		"client": [
-			"app.web.spsquared.client.ElytraFireworkNerfClient"
+			"app.web.spsquared.client.ElytraFireworkReducedClient"
 		]
 	},
 	"mixins": [
-		"elyfireworknerf.mixins.json"
+		"elytra-firework-reduced.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.19.2",
