@@ -18,7 +18,7 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"elytra-firework-reduced" {
+		"elytra_firework_reduced" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}

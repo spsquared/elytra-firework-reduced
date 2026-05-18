@@ -19,6 +19,11 @@ import app.web.spsquared.ElytraFireworkReduced;
 public class FireworkRocketEntityMixin {
 
     @Shadow
+    private Level level() {
+        return null;
+    }
+
+    @Shadow
     private LivingEntity attachedToEntity;
     @Shadow
     private int lifetime;

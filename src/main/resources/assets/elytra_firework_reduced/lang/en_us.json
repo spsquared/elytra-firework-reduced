@@ -1,0 +1,5 @@
+{
+    "gamerule.elytra_firework_reduced.firework_power": "Firework Boost Power",
+    "gamerule.elytra_firework_reduced.firework_speed": "Firework Boost Top Speed",
+    "multiplayer.reduced_elytra_firework.version_warning": "Different versions of Reduced Elytra Firework found! Server: %s / Client: %s"
+}

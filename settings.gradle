@@ -9,4 +9,4 @@ pluginManagement {
 	}
 }
 
-rootProject.name = 'elytra-firework-reduced'
+rootProject.name = 'elytra_firework_reduced'
