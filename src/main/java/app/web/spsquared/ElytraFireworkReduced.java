@@ -32,6 +32,6 @@ public class ElytraFireworkReduced implements ModInitializer {
         LOGGER.info("Oofing your fireworks");
         FireworkGameRules.init();
         ConfigManager.load();
-        ServerPlay.init();
+        ServerPlay.init(); // technically common but this handles only server-side things
     }
 }

@@ -37,6 +37,7 @@ public class ServerPlay {
     private static void initEnforcement() {
         // always register this payload so client knows if the mod is present
         PayloadTypeRegistry.serverboundPlay().register(EnforcementHandshakePayload.TYPE, EnforcementHandshakePayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(EnforcementHandshakePayload.TYPE, EnforcementHandshakePayload.CODEC);
 
         // MASSIVE ASSUMPTION that config is only loaded ONCE at init, and
         // subsequent changes require a server restart, and not a reload
@@ -106,6 +107,8 @@ public class ServerPlay {
     }
 
     private static void initSync() {
+        PayloadTypeRegistry.clientboundPlay().register(GameRuleSyncPayload.TYPE, GameRuleSyncPayload.CODEC);
+
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             if (ServerPlayNetworking.canSend(handler.player, GameRuleSyncPayload.TYPE)) {
                 ServerPlayNetworking.send(handler.player, new GameRuleSyncPayload(server.getGameRules()));

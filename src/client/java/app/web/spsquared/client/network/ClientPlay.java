@@ -7,7 +7,6 @@ import app.web.spsquared.network.payload.EnforcementHandshakePayload;
 import app.web.spsquared.network.payload.GameRuleSyncPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 
@@ -18,9 +17,6 @@ public class ClientPlay {
     }
 
     private static void initEnforcement() {
-        // register payload so the server can check immediately if the mod is installed
-        PayloadTypeRegistry.clientboundPlay().register(EnforcementHandshakePayload.TYPE, EnforcementHandshakePayload.CODEC);
-
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             if (ClientPlayNetworking.canSend(EnforcementHandshakePayload.TYPE)) {
                 ClientPlayNetworking.send(new EnforcementHandshakePayload(Version.VERSION));
@@ -47,8 +43,6 @@ public class ClientPlay {
     }
 
     private static void initSync() {
-        PayloadTypeRegistry.clientboundPlay().register(GameRuleSyncPayload.TYPE, GameRuleSyncPayload.CODEC);
-
         ClientPlayNetworking.registerGlobalReceiver(GameRuleSyncPayload.TYPE, (payload, context) -> {
             GameRuleMirror.update(new GameRuleMirror(payload.power(), payload.speed(), payload.time()));
         });
