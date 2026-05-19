@@ -46,7 +46,9 @@ public class FireworkRocketEntityMixin {
             // vanilla is weird so i replaced all of it
             double power = GameRuleMirror.get().fireworkPower();
             double speed = GameRuleMirror.get().fireworkSpeed() / 20; // convert to blocks per tick
-            return movement.add(lookAngle.scale(power * Math.max(0, 1 - movement.length() / speed)));
+            // min(power, speed) prevents huge boosts from standstill before power reduction happens
+            // acceleration decreases linearly until max speed is reached, then becomes 0
+            return movement.add(lookAngle.scale(Math.min(power, speed) * Math.max(0, 1 - movement.length() / speed)));
         }
         // this is cursed
         return original.call(instance, dx, dy, dz);
