@@ -30,6 +30,9 @@ public class ClientPlay {
                 ElytraFireworkReduced.enabled = false;
                 ElytraFireworkReduced.LOGGER.info("Server appears to not have elytra_firework_reduced, disabling changes");
             }
+            // add self to players with mod as it will remain empty when playing on external servers
+            if (client.player != null)
+                ElytraFireworkReduced.playersWithMod.put(client.player.getUUID(), true);
         });
         ClientPlayNetworking.registerGlobalReceiver(EnforcementHandshakePayload.TYPE, (payload, context) -> {
             // mod is enabled, but we may want a warning if the wrong version is present

@@ -53,6 +53,7 @@ public class ServerPlay {
             });
             ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
                 enforcementList.remove(handler.player.getUUID());
+                ElytraFireworkReduced.playersWithMod.remove(handler.player.getUUID());
             });
 
             ServerPlayNetworking.registerGlobalReceiver(EnforcementHandshakePayload.TYPE, (payload, context) -> {
@@ -62,6 +63,8 @@ public class ServerPlay {
                     // disconnect if wrong version
                     player.connection.disconnect(enforcementMessage);
                     ElytraFireworkReduced.LOGGER.warn(String.format("Disconnected as client has wrong version (expected %s, got %s)", Version.VERSION, clientVersion));
+                } else {
+                    ElytraFireworkReduced.playersWithMod.put(player.getUUID(), true);
                 }
                 enforcementList.remove(player.getUUID());
             });
@@ -92,9 +95,12 @@ public class ServerPlay {
                     ServerPlayNetworking.send(player, new EnforcementHandshakePayload(Version.VERSION));
                 }
             });
+            ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+                ElytraFireworkReduced.playersWithMod.remove(handler.player.getUUID());
+            });
 
             ServerPlayNetworking.registerGlobalReceiver(EnforcementHandshakePayload.TYPE, (payload, context) -> {
-                // we still register this so the client can detect that the mod is present
+                ElytraFireworkReduced.playersWithMod.put(context.player().getUUID(), true);
             });
         }
     }

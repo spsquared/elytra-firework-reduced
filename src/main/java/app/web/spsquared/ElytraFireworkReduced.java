@@ -1,6 +1,10 @@
 package app.web.spsquared;
 
 import net.fabricmc.api.ModInitializer;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import app.web.spsquared.config.ConfigManager;
@@ -16,6 +20,12 @@ public class ElytraFireworkReduced implements ModInitializer {
      * server-side.
      */
     public static boolean enabled = true;
+
+    /**
+     * "Set" of all players that have the mod client-side. This is used to calculate the correct movement
+     * of players without the mod when enforcement is disabled. (value is redundant)
+     */
+    public static final Map<@NonNull UUID, Boolean> playersWithMod = new ConcurrentHashMap<>();
 
     @Override
     public void onInitialize() {
