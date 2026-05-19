@@ -2,6 +2,7 @@ package app.web.spsquared.mixin;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import app.web.spsquared.ElytraFireworkReduced;
+import app.web.spsquared.network.GameRuleMirror;
 
 @Mixin(FireworkRocketEntity.class)
 public class FireworkRocketEntityMixin {
@@ -26,7 +28,7 @@ public class FireworkRocketEntityMixin {
     @Inject(method = "<init>(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;)V", at = @At("TAIL"))
     private void reduceAttachedFireworkLife(final Level level, final ItemStack sourceItemStack, final LivingEntity stuckTo, CallbackInfo callbackInfo) {
         if (ElytraFireworkReduced.enabled)
-            this.lifetime = (int) Mth.ceil(lifetime * 0.5);
+            this.lifetime = (int) Mth.ceil(lifetime * GameRuleMirror.get().fireworkTimeMultiplier());
     }
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;add"))
@@ -34,14 +36,14 @@ public class FireworkRocketEntityMixin {
         if (ElytraFireworkReduced.enabled && this.attachedToEntity != null) {
             Vec3 lookAngle = this.attachedToEntity.getLookAngle();
             Vec3 movement = this.attachedToEntity.getDeltaMovement();
-            // power is target speed (drag but it can pull you faster too) and powerAdd is force
-            double power = 1.5; // vanilla 1.5
-            double powerAdd = 0.015; // vanilla 0.1
-            double acceleration = 0.08; // vanilla 0.5
+            // vanilla is weird and increasing the speed increases the power too
+            double speed = GameRuleMirror.get().fireworkSpeed();
+            double power = GameRuleMirror.get().fireworkPower();
+            double drag = Math.min(power / speed, power * 100); // prevent blowing up to infinity
             return movement.add(
-                lookAngle.x * powerAdd + (lookAngle.x * power - movement.x) * acceleration,
-                lookAngle.y * powerAdd + (lookAngle.y * power - movement.y) * acceleration,
-                lookAngle.z * powerAdd + (lookAngle.z * power - movement.z) * acceleration
+                lookAngle.x * power - movement.x * drag,
+                lookAngle.y * power - movement.y * drag,
+                lookAngle.z * power - movement.z * drag
             );
         }
         // this is cursed

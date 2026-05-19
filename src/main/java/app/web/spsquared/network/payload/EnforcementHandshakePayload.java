@@ -1,4 +1,4 @@
-package app.web.spsquared.network;
+package app.web.spsquared.network.payload;
 
 import org.jspecify.annotations.NonNull;
 import app.web.spsquared.Version;

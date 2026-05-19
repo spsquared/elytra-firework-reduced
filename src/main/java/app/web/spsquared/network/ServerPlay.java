@@ -7,19 +7,27 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.jspecify.annotations.NonNull;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleEvents;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleEvents.ValueUpdate;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
+import net.minecraft.world.level.gamerules.GameRules;
 import app.web.spsquared.ElytraFireworkReduced;
 import app.web.spsquared.Version;
 import app.web.spsquared.config.ConfigManager;
+import app.web.spsquared.gamerules.FireworkGameRules;
+import app.web.spsquared.network.payload.EnforcementHandshakePayload;
+import app.web.spsquared.network.payload.GameRuleSyncPayload;
 
 public class ServerPlay {
 
     public static void init() {
         initEnforcement();
+        initSync();
     }
 
     private static final int enforcementHandshakeDeadline = 200; // you have 10 seconds to verify
@@ -78,9 +86,10 @@ public class ServerPlay {
             });
         } else {
             ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-                enforcementList.put(handler.player.getUUID(), 0);
-                if (ServerPlayNetworking.canSend(handler.player, EnforcementHandshakePayload.TYPE)) {
-                    ServerPlayNetworking.send(handler.player, new EnforcementHandshakePayload(Version.VERSION));
+                final ServerPlayer player = handler.player;
+                enforcementList.put(player.getUUID(), 0);
+                if (ServerPlayNetworking.canSend(player, EnforcementHandshakePayload.TYPE)) {
+                    ServerPlayNetworking.send(player, new EnforcementHandshakePayload(Version.VERSION));
                 }
             });
 
@@ -88,5 +97,24 @@ public class ServerPlay {
                 // we still register this so the client can detect that the mod is present
             });
         }
+    }
+
+    private static void initSync() {
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            if (ServerPlayNetworking.canSend(handler.player, GameRuleSyncPayload.TYPE)) {
+                ServerPlayNetworking.send(handler.player, new GameRuleSyncPayload(server.getGameRules()));
+            }
+        });
+        final ValueUpdate<Double> updateListener = (value, server) -> {
+            GameRules gameRules = server.getGameRules();
+            for (ServerPlayer player : PlayerLookup.all(server)) {
+                if (ServerPlayNetworking.canSend(player, GameRuleSyncPayload.TYPE)) {
+                    ServerPlayNetworking.send(player, new GameRuleSyncPayload(gameRules));
+                }
+            }
+        };
+        GameRuleEvents.changeCallback(FireworkGameRules.FIREWORK_POWER).register(updateListener);
+        GameRuleEvents.changeCallback(FireworkGameRules.FIREWORK_SPEED).register(updateListener);
+        GameRuleEvents.changeCallback(FireworkGameRules.FIREWORK_TIME).register(updateListener);
     }
 }

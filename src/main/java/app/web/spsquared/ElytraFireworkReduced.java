@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import app.web.spsquared.config.ConfigManager;
+import app.web.spsquared.gamerules.FireworkGameRules;
 import app.web.spsquared.network.ServerPlay;
 
 public class ElytraFireworkReduced implements ModInitializer {
@@ -19,6 +20,7 @@ public class ElytraFireworkReduced implements ModInitializer {
     @Override
     public void onInitialize() {
         LOGGER.info("Oofing your fireworks");
+        FireworkGameRules.init();
         ConfigManager.load();
         ServerPlay.init();
     }
