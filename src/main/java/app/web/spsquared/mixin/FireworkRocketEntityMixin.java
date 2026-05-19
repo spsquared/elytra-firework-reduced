@@ -43,15 +43,10 @@ public class FireworkRocketEntityMixin {
         if (ElytraFireworkReduced.enabled && this.attachedToEntity != null && isPlayerWithMod(this.attachedToEntity)) {
             Vec3 lookAngle = this.attachedToEntity.getLookAngle();
             Vec3 movement = this.attachedToEntity.getDeltaMovement();
-            // vanilla is weird and increasing the speed increases the power too
-            double speed = GameRuleMirror.get().fireworkSpeed();
+            // vanilla is weird so i replaced all of it
             double power = GameRuleMirror.get().fireworkPower();
-            double drag = Math.min(power / speed, power * 100); // prevent blowing up to infinity
-            return movement.add(
-                lookAngle.x * power - movement.x * drag,
-                lookAngle.y * power - movement.y * drag,
-                lookAngle.z * power - movement.z * drag
-            );
+            double speed = GameRuleMirror.get().fireworkSpeed() / 20; // convert to blocks per tick
+            return movement.add(lookAngle.scale(power * Math.max(0, 1 - movement.length() / speed)));
         }
         // this is cursed
         return original.call(instance, dx, dy, dz);

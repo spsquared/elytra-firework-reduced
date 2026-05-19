@@ -118,6 +118,7 @@ public class ServerPlay {
                     ServerPlayNetworking.send(player, new GameRuleSyncPayload(gameRules));
                 }
             }
+            GameRuleMirror.update(new GameRuleMirror(gameRules.get(FireworkGameRules.FIREWORK_POWER), gameRules.get(FireworkGameRules.FIREWORK_SPEED), gameRules.get(FireworkGameRules.FIREWORK_TIME)));
         };
         GameRuleEvents.changeCallback(FireworkGameRules.FIREWORK_POWER).register(updateListener);
         GameRuleEvents.changeCallback(FireworkGameRules.FIREWORK_SPEED).register(updateListener);

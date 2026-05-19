@@ -6,7 +6,7 @@ package app.web.spsquared.network;
  * are updated through a custom packet type.
  */
 public record GameRuleMirror(double fireworkPower, double fireworkSpeed, double fireworkTimeMultiplier) {
-    private static GameRuleMirror current = new GameRuleMirror(0.25, 1.5, 0.5);
+    private static GameRuleMirror current = new GameRuleMirror(0.15, 40, 0.5);
 
     public static GameRuleMirror get() {
         return current;
